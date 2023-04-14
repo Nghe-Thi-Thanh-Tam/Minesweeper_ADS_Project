@@ -9,7 +9,9 @@ public class DesktopLauncher {
 		Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
 		config.setForegroundFPS(60);
 		config.setTitle("Minesweeper");
-		new Lwjgl3Application(new GameScreen(), config);
+		config.setWindowedMode(512, 564);
+		config.setResizable(false);
+		new Lwjgl3Application(new Boot(), config);
 
 	}
 }
