@@ -39,6 +39,7 @@ public class Board extends Square{
                             + checkBomb(board, i, j-1) + checkBomb(board, i, j+1)
                             + checkBomb(board, i+1, j-1) + checkBomb(board, i+1, j) + checkBomb(board, i+1, j+1);
                     board[i][j] = value;
+
                 }
             }
         }
