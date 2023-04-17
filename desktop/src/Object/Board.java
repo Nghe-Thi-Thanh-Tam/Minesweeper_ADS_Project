@@ -30,6 +30,7 @@ public class Board{
         }
     }
 
+
     static int checkBomb(Square[][] board, int positionX, int positionY){
         if (positionX >= 0 && positionY >=0 && positionX < row && positionY < col){
             if (board[positionX][positionY].getValue() == -1) {
