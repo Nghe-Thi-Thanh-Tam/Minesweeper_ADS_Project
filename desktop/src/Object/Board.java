@@ -1,5 +1,7 @@
 package Object;
 
+import java.util.Stack;
+
 public class Board{
 
     public Board(int row, int col, int bomb, Square[][] board) {
@@ -30,7 +32,6 @@ public class Board{
         }
     }
 
-
     static int checkBomb(Square[][] board, int positionX, int positionY){
         if (positionX >= 0 && positionY >=0 && positionX < row && positionY < col){
             if (board[positionX][positionY].getValue() == -1) {
@@ -56,5 +57,14 @@ public class Board{
             }
         }
         return value;
+    }
+
+    //undo -> ctrl Z
+    static void Undo(Stack s){
+
+    }
+
+    static void Redo(Stack s){
+
     }
 }
