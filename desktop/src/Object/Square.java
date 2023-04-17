@@ -12,7 +12,7 @@ public class Square {
     Square(){
         isOpened = false;
         isFlagged = false;
-        new Texture("\\value\\notOpen.png");
+        texture = new Texture("notOpen.png");
     }
 
     public void update() {
