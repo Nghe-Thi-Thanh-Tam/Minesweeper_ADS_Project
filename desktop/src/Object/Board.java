@@ -1,27 +1,38 @@
 package Object;
 
-public class Board extends Square{
+public class Board{
+
+    public Board(int row, int col, int bomb, Square[][] board) {
+        this.row = row;
+        this.col = col;
+        this.bomb = bomb;
+        board = new Square[row][col];
+        randomBomb();
+        CalculateSquareValue();
+    }
 
     private static int row = 16;
     private static int col = 16;
-    private static int bomb = 10;
-    private static int countBomb;
-    static void randomBomb(int board[][]) {
-        int x, y;
-            while (countBomb != bomb){
-            x = (int)(Math.random()*row);
-            y = (int)(Math.random()*col);
+    private static int bomb = 40;
+    static Square[][] board;
 
-            if (board[x][y] != -1){
-                board[x][y] = -1;
+    static void randomBomb() {
+        int positionX, positionY;
+        int countBomb = 0;
+            while (countBomb != bomb){
+                positionX = (int)(Math.random()*row);
+                positionY = (int)(Math.random()*col);
+
+            if (board[positionX][positionY].getValue() != -1){
+                board[positionX][positionY].setValue(-1);
                 countBomb++;
             }
         }
     }
 
-    static int checkBomb(int[][] board, int x, int y){
-        if (x >= 0 && y >=0 && x < row && y < col){
-            if (board[x][y] == -1) {
+    static int checkBomb(Square[][] board, int positionX, int positionY){
+        if (positionX >= 0 && positionY >=0 && positionX < row && positionY < col){
+            if (board[positionX][positionY].getValue() == -1) {
                 return 1;
             }
             else return 0;
@@ -29,16 +40,16 @@ public class Board extends Square{
         return 0;
     }
 
-    static int CalculateSquareValue(int board[][]){
+    static int CalculateSquareValue(){
         int value = 0;
         for (int i=0; i<row; i++){
             for (int j=0; j<col; j++){
-                if (board[i][j] == -1) continue;
+                if (board[i][j].getValue() == -1) continue;
                 else {
                     value += checkBomb(board, i-1, j-1) + checkBomb(board, i-1, j) + checkBomb(board, i-1, j+1)
                             + checkBomb(board, i, j-1) + checkBomb(board, i, j+1)
                             + checkBomb(board, i+1, j-1) + checkBomb(board, i+1, j) + checkBomb(board, i+1, j+1);
-                    board[i][j] = value;
+                    board[i][j].setValue(value);
                 }
             }
         }
