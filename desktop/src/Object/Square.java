@@ -4,22 +4,29 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class Square {
-    int value;
-    boolean isOpened;
-    boolean isFlagged;
-    boolean isBomb;
-    Texture texture;
+    private int value, x, y;
+    private boolean isOpened;
+    private boolean isFlagged;
+    private Texture texture;
 
-    public void Square(){
-
+    Square(){
+        isOpened = false;
+        isFlagged = false;
+        texture = new Texture("notOpen.png");
     }
 
     public void update() {
+
     }
 
-//    public final void render(SpriteBatch){
-//
-//    }
+    public final void render(SpriteBatch batch){
+
+    }
+
+    public void setPosition(int x, int y){
+        this.x = x;
+        this.y = y;
+    }
 
     public int getValue() {
         return value;
@@ -38,6 +45,7 @@ public class Square {
     }
 
     public boolean isBomb() {
-        return this.isBomb;
+        if (value == -1) return true;
+        return false;
     }
 }
