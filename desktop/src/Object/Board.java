@@ -1,20 +1,59 @@
 package Object;
 
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+
 public class Board{
-
-    public Board(int row, int col, int bomb, Square[][] board) {
-        this.row = row;
-        this.col = col;
-        this.bomb = bomb;
-        board = new Square[row][col];
-        randomBomb();
-        CalculateSquareValue();
-    }
-
     private static int row = 16;
     private static int col = 16;
     private static int bomb = 40;
     static Square[][] board;
+    private int x, y;
+    public Board(int row, int col, int bomb, int x, int y) {
+        this.row = row;
+        this.col = col;
+        this.bomb = bomb;
+        board = new Square[row][col];
+
+        for (int i=0; i<row; i++){
+            for (int j=0; j<col; j++){
+                board[i][j] = new Square();
+            }
+        }
+
+        randomBomb();
+        CalculateSquareValue();
+        this.x = x;
+        this.y = y;
+
+
+
+        // set position for squares
+        int squareY = y;
+        for (int i=0; i<row; i++){
+            for (int j=0; j<col; j++){
+                board[i][j].setPosition(j*32, squareY);
+            }
+            squareY += 32;
+        }
+    }
+
+    public void update(){
+        for (int i=0; i<row; i++){
+            for (int j=0; j<col; j++){
+                board[i][j].update();
+            }
+        }
+    }
+
+    public void render(SpriteBatch batch){
+        for (int i=0; i<row; i++){
+            for (int j=0; j<col; j++){
+                board[i][j].render(batch);
+            }
+        }
+    }
+
+
 
     static void randomBomb() {
         int positionX, positionY;
@@ -41,12 +80,12 @@ public class Board{
         return 0;
     }
 
-    static int CalculateSquareValue(){
-        int value = 0;
+    static void CalculateSquareValue(){
         for (int i=0; i<row; i++){
             for (int j=0; j<col; j++){
                 if (board[i][j].getValue() == -1) continue;
                 else {
+                    int value = 0;
                     value += checkBomb(board, i-1, j-1) + checkBomb(board, i-1, j) + checkBomb(board, i-1, j+1)
                             + checkBomb(board, i, j-1) + checkBomb(board, i, j+1)
                             + checkBomb(board, i+1, j-1) + checkBomb(board, i+1, j) + checkBomb(board, i+1, j+1);
@@ -55,6 +94,5 @@ public class Board{
                 }
             }
         }
-        return value;
     }
 }
