@@ -8,10 +8,13 @@ public class Board{
     private static int bomb = 40;
     static Square[][] board;
     private int x, y;
+    private boolean win, lose;
     public Board(int row, int col, int bomb, int x, int y) {
         this.row = row;
         this.col = col;
         this.bomb = bomb;
+        win = false;
+        lose = false;
         board = new Square[row][col];
 
         for (int i=0; i<row; i++){
@@ -38,9 +41,24 @@ public class Board{
     }
 
     public void update(){
-        for (int i=0; i<row; i++){
-            for (int j=0; j<col; j++){
-                board[i][j].update();
+        if (lose)
+            for (int i=0; i<row; i++){
+                for (int j=0; j<col; j++){
+                    board[i][j].openBomb();
+                }
+            }
+        else {
+            for (int i = 0; i < row; i++) {
+                for (int j = 0; j < col; j++) {
+                    board[i][j].update();
+                }
+            }
+
+            for (int i = 0; i < row; i++) {
+                for (int j = 0; j < col; j++) {
+                    if (board[i][j].clickedBomb())
+                        lose = true;
+                }
             }
         }
     }

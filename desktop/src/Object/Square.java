@@ -27,17 +27,30 @@ public class Square {
     public void update() {
         if (Gdx.input.getX() >= x && Gdx.input.getX() <= x+32 && Gdx.input.getY() >= Gdx.graphics.getHeight()-y-32 && Gdx.input.getY() <=  Gdx.graphics.getHeight()-y) {
             if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
-                if (!isFlagged())
-                    if (!isBomb())
-                        if (!isOpened())
+                if (!isFlagged()) {
+                    if (!isOpened()) {
+                        if (!isBomb()) {
                             texture = Const.valueSprite[value];
+                            isOpened = true;
+                        }
+                        else {
+                            texture = new Texture("clickedBomb.png");
+                            isOpened = true;
+                        }
+                    }
+                }
             }
             if (Gdx.input.isButtonJustPressed(Input.Buttons.RIGHT)) {
-                if (!isOpened())
-                    if (!isFlagged())
+                if (!isOpened()) {
+                    if (!isFlagged()){
                         texture = new Texture("flagged.png");
-                    else
+                        isFlagged = true;
+                    }
+                    else{
                         texture = new Texture("notOpen.png");
+                        isFlagged = false;
+                    }
+                }
             }
         }
     }
@@ -71,5 +84,16 @@ public class Square {
     public boolean isBomb() {
         if (value == -1) return true;
         return false;
+    }
+
+    public boolean clickedBomb(){
+        if (texture.toString().equals("clickedBomb.png"))
+            return true;
+        return false;
+    }
+
+    public void openBomb(){
+        if (isBomb() && !clickedBomb())
+            texture = new Texture("bomb.png");
     }
 }
