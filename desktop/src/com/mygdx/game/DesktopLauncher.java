@@ -10,7 +10,7 @@ public class DesktopLauncher {
 		config.setForegroundFPS(60);
 		config.setTitle("Minesweeper");
 		config.setWindowedMode(512, 600); //564
-		config.setResizable(false);
+		config.setResizable(true);
 		new Lwjgl3Application(new Boot(), config);
 
 	}
