@@ -2,6 +2,7 @@ package com.mygdx.game;
 
 import Helper.Const;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import Object.Board;
@@ -10,7 +11,7 @@ public class GameScreen extends ScreenAdapter {
     private Board board;
 
     public GameScreen(){
-        board = new Board(16, 16, 40, 0, 0);
+        board = new Board(16, 16, 4, 0, 0);
         batch = new SpriteBatch();
     }
 

@@ -13,6 +13,8 @@ public class Square {
     private boolean isOpened;
     private boolean isFlagged;
     private Texture texture;
+    private int noFlagAround;
+    private boolean chording;
 
 
     public Square(){
@@ -21,6 +23,8 @@ public class Square {
         texture = new Texture("notOpen.png");
         width = 32;
         height = 32;
+        noFlagAround = 0;
+        chording = false;
     }
 
 
@@ -29,30 +33,35 @@ public class Square {
             if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
                 if (!isFlagged()) {
                     if (!isOpened()) {
-                        if (!isBomb()) {
-                            texture = Const.valueSprite[value];
-                            isOpened = true;
-                        }
-                        else {
-                            texture = new Texture("clickedBomb.png");
-                            isOpened = true;
-                        }
+                        openSquare();
+                    }
+                    else{
+                        if(noFlagAround == getValue())
+                            setChording(true);
                     }
                 }
             }
             if (Gdx.input.isButtonJustPressed(Input.Buttons.RIGHT)) {
                 if (!isOpened()) {
                     if (!isFlagged()){
-                        texture = new Texture("flagged.png");
+                        setTexture(new Texture("flagged.png"));
                         isFlagged = true;
                     }
                     else{
-                        texture = new Texture("notOpen.png");
+                        setTexture(new Texture("notOpen.png"));
                         isFlagged = false;
                     }
                 }
             }
         }
+        if (isOpened){
+            if(!isBomb())
+                setTexture(Const.valueSprite[value]);
+            else{
+                setTexture(new Texture("clickedBomb.png"));
+            }
+        }
+
     }
 
     public final void render(SpriteBatch batch){
@@ -87,13 +96,30 @@ public class Square {
     }
 
     public boolean clickedBomb(){
-        if (texture.toString().equals("clickedBomb.png"))
+        if (isBomb() && isOpened())
             return true;
         return false;
     }
 
     public void openBomb(){
-        if (isBomb() && !clickedBomb())
-            texture = new Texture("bomb.png");
+        if (isBomb() && !clickedBomb() && !isFlagged())
+            setTexture(new Texture("bomb.png"));
+        if (!isBomb() && isFlagged())
+            setTexture(new Texture("wrong_flagged.png"));
+    }
+    public void openSquare(){
+        if(!isOpened && !isFlagged){
+            isOpened = true;
+        }
+    }
+    public void setNoFlagAround(int noFlagAround){
+        this.noFlagAround = noFlagAround;
+    }
+    public boolean isChording(){return chording;}
+    public void setChording(boolean chording){
+        this.chording = chording;
+    }
+    public void setTexture(Texture texture){
+        this.texture = texture;
     }
 }
