@@ -11,8 +11,6 @@ public class Board {
     private int x, y;
     private boolean win, lose;
 
-    private Texture texture;
-
     public Board(int row, int col, int bomb, int x, int y) {
         this.row = row;
         this.col = col;
@@ -93,13 +91,8 @@ public class Board {
                 board[i][j].render(batch);
             }
         }
-        texture = new Texture("bomb.png");
-        batch.draw(texture, 220, 525,60,60);
-    }
-
-    public final void renderResetButton(SpriteBatch batch){
-        texture = new Texture("bomb.png");
-        batch.draw(texture, 220, 525,60,60);
+//        texture = new Texture("bomb.png");
+//        batch.draw(texture, 220, 525,60,60);
     }
 
 
@@ -178,5 +171,9 @@ public class Board {
         openSquare(i + 1, j - 1);
         openSquare(i + 1, j);
         openSquare(i + 1, j + 1);
+    }
+
+    public int getRow() {
+        return row;
     }
 }

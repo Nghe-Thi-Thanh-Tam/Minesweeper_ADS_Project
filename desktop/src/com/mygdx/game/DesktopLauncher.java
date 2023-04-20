@@ -2,7 +2,6 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
-import com.mygdx.game.GameScreen;
 
 public class DesktopLauncher {
 	public static void main (String[] arg) {
@@ -10,7 +9,7 @@ public class DesktopLauncher {
 		config.setForegroundFPS(60);
 		config.setTitle("Minesweeper");
 		config.setWindowedMode(512, 600); //564
-		config.setResizable(true);
+		config.setResizable(false);
 		new Lwjgl3Application(new Boot(), config);
 
 	}
