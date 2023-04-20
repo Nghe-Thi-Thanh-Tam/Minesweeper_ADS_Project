@@ -16,4 +16,8 @@ public class Button {
     public void render(int x, int y, SpriteBatch batch){
         batch.draw(texture, x, y, width, height);
     }
+
+    public void setTexture(Texture texture) {
+        this.texture = texture;
+    }
 }

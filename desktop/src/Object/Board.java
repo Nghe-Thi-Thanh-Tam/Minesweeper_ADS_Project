@@ -1,5 +1,6 @@
 package Object;
 
+import Helper.Sprite;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
@@ -46,6 +47,7 @@ public class Board {
             for (int i = 0; i < row; i++) {
                 for (int j = 0; j < col; j++) {
                     board[i][j].openBomb();
+                    board[i][j].updateTexture();
                 }
             }
         }
@@ -53,8 +55,9 @@ public class Board {
             for (int i = 0; i < row; i++) {
                 for (int j = 0; j < col; j++) {
                     if (!board[i][j].isFlagged() && board[i][j].isBomb()){
-                        board[i][j].setTexture(new Texture("flagged.png"));
+                        board[i][j].isFlagged = true;
                     }
+                    board[i][j].updateTexture();
                 }
             }
         }
@@ -91,8 +94,6 @@ public class Board {
                 board[i][j].render(batch);
             }
         }
-//        texture = new Texture("bomb.png");
-//        batch.draw(texture, 220, 525,60,60);
     }
 
 

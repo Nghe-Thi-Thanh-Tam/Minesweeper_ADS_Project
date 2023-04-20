@@ -25,7 +25,6 @@ public class Boot extends Game {
     public void create(){
         this.screenWidth = Gdx.graphics.getWidth();
         this.screenHeight = Gdx.graphics.getHeight();
-        System.out.println(screenWidth + "  " + screenHeight);
         setScreen(new GameScreen());
     }
 }

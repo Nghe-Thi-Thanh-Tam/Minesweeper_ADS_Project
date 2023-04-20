@@ -1,6 +1,6 @@
 package Object;
 
-import Helper.Const;
+import Helper.Sprite;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
@@ -11,7 +11,8 @@ public class Square {
     private int x, y;
     private int width, height;
     private boolean isOpened;
-    private boolean isFlagged;
+    protected boolean isFlagged;
+    private boolean isWrongFlagged;
     private Texture texture;
     private int noFlagAround;
     private boolean chording;
@@ -20,11 +21,12 @@ public class Square {
     public Square(){
         isOpened = false;
         isFlagged = false;
-        texture = new Texture("notOpen.png");
+        texture = Sprite.notOpen;
         width = 32;
         height = 32;
         noFlagAround = 0;
         chording = false;
+        isWrongFlagged = false;
     }
 
 
@@ -44,22 +46,32 @@ public class Square {
             if (Gdx.input.isButtonJustPressed(Input.Buttons.RIGHT)) {
                 if (!isOpened()) {
                     if (!isFlagged()){
-                        setTexture(new Texture("flagged.png"));
                         isFlagged = true;
                     }
                     else{
-                        setTexture(new Texture("notOpen.png"));
                         isFlagged = false;
                     }
                 }
             }
         }
+        updateTexture();
+    }
+    public void updateTexture(){
         if (isOpened){
             if(!isBomb())
-                setTexture(Const.valueSprite[value]);
+                setTexture(Sprite.valueSprite[value]);
             else{
-                setTexture(new Texture("clickedBomb.png"));
+                setTexture(Sprite.bomb);
             }
+        }
+        else if (!isFlagged){
+            setTexture(Sprite.notOpen);
+        }
+        else if(!isWrongFlagged){
+            setTexture(Sprite.flagged);
+        }
+        else{
+            setTexture(Sprite.wrong_flagged);
         }
 
     }
@@ -103,9 +115,9 @@ public class Square {
 
     public void openBomb(){
         if (isBomb() && !clickedBomb() && !isFlagged())
-            setTexture(new Texture("bomb.png"));
+            isOpened = true;
         if (!isBomb() && isFlagged())
-            setTexture(new Texture("wrong_flagged.png"));
+            isWrongFlagged = true;
     }
     public void openSquare(){
         if(!isOpened && !isFlagged){
