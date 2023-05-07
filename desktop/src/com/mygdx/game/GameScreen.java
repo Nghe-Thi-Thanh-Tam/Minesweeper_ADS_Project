@@ -12,6 +12,7 @@ public class GameScreen extends ScreenAdapter {
 
     private ResetButton resetButton;
     private ThemeButton themeButton;
+    private UndoButton undoButton;
 
 
     public GameScreen(){
@@ -19,6 +20,7 @@ public class GameScreen extends ScreenAdapter {
         batch = new SpriteBatch();
         resetButton = new ResetButton(60, 60, new Texture("lightPack/bomb.png"));
         themeButton = new ThemeButton(128, 50, new Texture("dark_theme.png"));
+        undoButton = new UndoButton(60, 50, new Texture("lightPack/bomb.png"));
     }
 
     public void update() {
@@ -28,8 +30,14 @@ public class GameScreen extends ScreenAdapter {
             reset();
     }
 
+
+
     public void reset(){
         Boot.INSTANCE.create();
+    }
+
+    public void undo(){
+
     }
 
 
@@ -42,7 +50,7 @@ public class GameScreen extends ScreenAdapter {
         board.render(this.batch);
         resetButton.render((Gdx.graphics.getWidth()-60)/2, Gdx.graphics.getHeight()-75, this.batch);
         themeButton.render(20, Gdx.graphics.getHeight()-75, this.batch);
-
+        undoButton.render((Gdx.graphics.getWidth()-120), Gdx.graphics.getHeight()-75, this.batch);
         batch.end();
     }
 }

@@ -3,6 +3,7 @@ package Object;
 import Helper.Sprite;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.mygdx.game.Boot;
 
 public class Board {
     private static int row;
@@ -95,6 +96,7 @@ public class Board {
             }
         }
     }
+
 
 
     static void randomBomb() {
