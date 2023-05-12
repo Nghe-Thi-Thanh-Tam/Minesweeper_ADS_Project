@@ -1,5 +1,6 @@
 package com.mygdx.game;
 
+import Helper.Sprite;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Texture;
@@ -18,9 +19,9 @@ public class GameScreen extends ScreenAdapter {
     public GameScreen(){
         board = new Board(16, 16, 40, 0, 0);
         batch = new SpriteBatch();
-        resetButton = new ResetButton(60, 60, new Texture("lightPack/bomb.png"));
-        themeButton = new ThemeButton(128, 50, new Texture("dark_theme.png"));
-        undoButton = new UndoButton(60, 50, new Texture("lightPack/bomb.png"));
+        resetButton = new ResetButton(60, 60, Sprite.smiley_face);
+        themeButton = new ThemeButton(128, 50, Sprite.darkTheme);
+        undoButton = new UndoButton(60, 60, Sprite.undo_button);
     }
 
     public void update() {

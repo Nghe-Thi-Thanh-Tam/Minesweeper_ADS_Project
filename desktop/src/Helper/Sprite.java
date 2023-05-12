@@ -20,6 +20,8 @@ public class Sprite {
 
     public static Texture lightTheme = new Texture("light_theme.png");
     public static Texture darkTheme = new Texture("dark_theme.png");
+    public static Texture smiley_face = new Texture("smiley_face.png");
+    public static Texture undo_button = new Texture("undo_button.png");
     public static void setValueSprite(Texture[] texture){
         valueSprite = texture;
     }
