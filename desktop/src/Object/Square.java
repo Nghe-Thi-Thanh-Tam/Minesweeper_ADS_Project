@@ -98,9 +98,14 @@ public class Square {
         return this.isOpened;
     }
 
+    public boolean isWhetherOpened() {
+        return this.isOpened = !isOpened;
+    }
+
     public boolean isFlagged() {
         return this.isFlagged;
     }
+
 
     public boolean isBomb() {
         if (value == -1) return true;
