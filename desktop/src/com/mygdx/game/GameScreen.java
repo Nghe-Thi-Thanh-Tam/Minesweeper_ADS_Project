@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import Object.*;
 import Object.Board;
 
-import static Object.Board.gameSteps;
+import java.util.Stack;
 
 
 public class GameScreen extends ScreenAdapter {
@@ -18,7 +18,7 @@ public class GameScreen extends ScreenAdapter {
     private ResetButton resetButton;
     private ThemeButton themeButton;
     private UndoButton undoButton;
-
+    private Stack<Stack> undoStack;
 
     int i;
     int j;
@@ -31,10 +31,15 @@ public class GameScreen extends ScreenAdapter {
         resetButton = new ResetButton(60, 60, Sprite.smiley_face);
         themeButton = new ThemeButton(128, 50, Sprite.darkTheme);
         undoButton = new UndoButton(60, 60, Sprite.undo_button);
+        undoStack = new Stack<>();
     }
 
     public void update() {
         board.update();
+        if(board.isStateChanged()){
+            undoStack.push(board.getGameSteps());
+            board.setStateChanged(false);
+        }
         themeButton.update();
         if(resetButton.update())
             reset();
@@ -49,20 +54,13 @@ public class GameScreen extends ScreenAdapter {
     }
 
     public void undo(){
-
-        if (!gameSteps.empty()){
-            int t = gameSteps.pop();
-            int j = t % 16;
-            if (j == 0) j = 16;
-            int i = (t - j)/16;
-//            reset();
-            square[i][j].closeSquare();
-//            board.undoSquare(i,j).closeSquare();
-            board.undoSquare(i,j).updateTexture();
+        if(!undoStack.empty()){
+            System.out.println("Undo is triggered");
+            Stack<Square> tempStack = undoStack.pop();
+            while(!tempStack.empty()){
+                tempStack.pop().closeSquare();
+            }
         }
-
-
-
     }
 
 

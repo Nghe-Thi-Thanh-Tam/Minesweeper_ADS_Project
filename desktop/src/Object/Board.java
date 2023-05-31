@@ -12,8 +12,8 @@ public class Board {
     private int x, y;
     private boolean win, lose;
 
-    public static Stack <Integer> gameSteps = new Stack<Integer>();
-
+    private static Stack <Square> gameSteps;
+    private boolean stateChanged;
 
 
     public Board(int row, int col, int bomb, int x, int y) {
@@ -44,6 +44,8 @@ public class Board {
             }
             squareY += 32;
         }
+
+        stateChanged = false;
     }
 
     public void update() {
@@ -66,6 +68,7 @@ public class Board {
             }
         }
         else{
+            gameSteps = new Stack<>();
             int leftSquare = col*row;
             for (int i = 0; i < row; i++) {
                 for (int j = 0; j < col; j++) {
@@ -84,6 +87,13 @@ public class Board {
                     if (board[i][j].clickedBomb())
                         lose = true;
                     board[i][j].update();
+
+
+                    if(board[i][j].isStateChanged()) {
+                        gameSteps.push(board[i][j]);
+                        setStateChanged(true);
+                        board[i][j].setStateChanged(false);
+                    }
                 }
             }
             if (leftSquare == bomb)
@@ -165,11 +175,8 @@ public class Board {
 
     public void openSquare(int i, int j) {
         if (i >= 0 && j >= 0 && i < row && j < col) {
-            board[i][j].openSquare();
+                board[i][j].openSquare();
         }
-        int t = i *16 + j;
-//        gameSteps.clear();
-        gameSteps.push(t);
     }
 
 
@@ -198,4 +205,15 @@ public class Board {
         return board[i][j];
     }
 
+    public boolean isStateChanged() {
+        return stateChanged;
+    }
+
+    public void setStateChanged(boolean stateChanged) {
+        this.stateChanged = stateChanged;
+    }
+
+    public Stack<Square> getGameSteps() {
+        return gameSteps;
+    }
 }

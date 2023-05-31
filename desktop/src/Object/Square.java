@@ -19,6 +19,7 @@ public class Square {
     private Texture texture;
     private int noFlagAround;
     private boolean chording;
+    private boolean stateChanged;
 
 
 
@@ -31,6 +32,7 @@ public class Square {
         noFlagAround = 0;
         chording = false;
         isWrongFlagged = false;
+        stateChanged = false;
     }
 
 
@@ -81,9 +83,6 @@ public class Square {
         }
     }
 
-//    public void repaint(){
-//        setTexture(Sprite.notOpen);
-//    }
 
     public final void render(SpriteBatch batch){
         batch.draw(texture, x, y, width, height);
@@ -107,9 +106,6 @@ public class Square {
         return this.isOpened;
     }
 
-    public boolean isWhetherOpened() {
-        return this.isOpened = !isOpened;
-    }
 
     public boolean isFlagged() {
         return this.isFlagged;
@@ -138,6 +134,7 @@ public class Square {
     public void openSquare(){
         if(!isOpened && !isFlagged){
             isOpened = true;
+            setStateChanged(true);
         }
     }
 
@@ -155,5 +152,13 @@ public class Square {
     }
     public void setTexture(Texture texture){
         this.texture = texture;
+    }
+
+    public boolean isStateChanged() {
+        return stateChanged;
+    }
+
+    public void setStateChanged(boolean stateChanged) {
+        this.stateChanged = stateChanged;
     }
 }
