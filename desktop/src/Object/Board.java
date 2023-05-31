@@ -1,9 +1,8 @@
 package Object;
 
-import Helper.Sprite;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.mygdx.game.Boot;
+
+import java.util.Stack;
 
 public class Board {
     private static int row;
@@ -12,6 +11,10 @@ public class Board {
     static Square[][] board;
     private int x, y;
     private boolean win, lose;
+
+    public static Stack <Integer> gameSteps = new Stack<Integer>();
+
+
 
     public Board(int row, int col, int bomb, int x, int y) {
         this.row = row;
@@ -89,6 +92,8 @@ public class Board {
         }
     }
 
+
+
     public void render(SpriteBatch batch) {
         for (int i = 0; i < row; i++) {
             for (int j = 0; j < col; j++) {
@@ -162,8 +167,11 @@ public class Board {
         if (i >= 0 && j >= 0 && i < row && j < col) {
             board[i][j].openSquare();
         }
-
+        int t = i *16 + j;
+//        gameSteps.clear();
+        gameSteps.push(t);
     }
+
 
     public void openSquareAround(int i, int j) {
         openSquare(i - 1, j - 1);
@@ -185,4 +193,9 @@ public class Board {
     public int getBomb(){
         return bomb;
     }
+
+    public Square undoSquare(int i, int j){
+        return board[i][j];
+    }
+
 }

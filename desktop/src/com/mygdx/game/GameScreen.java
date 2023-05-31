@@ -3,20 +3,29 @@ package com.mygdx.game;
 import Helper.Sprite;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import Object.*;
+import Object.Board;
+
+import static Object.Board.gameSteps;
+
 
 public class GameScreen extends ScreenAdapter {
     private SpriteBatch batch;
     private Board board;
+    private Square[][] square;
 
     private ResetButton resetButton;
     private ThemeButton themeButton;
     private UndoButton undoButton;
 
 
+    int i;
+    int j;
+
+
     public GameScreen(){
+
         board = new Board(16, 16, 40, 0, 0);
         batch = new SpriteBatch();
         resetButton = new ResetButton(60, 60, Sprite.smiley_face);
@@ -29,6 +38,8 @@ public class GameScreen extends ScreenAdapter {
         themeButton.update();
         if(resetButton.update())
             reset();
+        if(undoButton.update())
+            undo();
     }
 
 
@@ -39,6 +50,19 @@ public class GameScreen extends ScreenAdapter {
 
     public void undo(){
 
+        if (!gameSteps.empty()){
+            int t = gameSteps.pop();
+            int j = t % 16;
+            if (j == 0) j = 16;
+            int i = (t - j)/16;
+//            reset();
+            square[i][j].closeSquare();
+//            board.undoSquare(i,j).closeSquare();
+            board.undoSquare(i,j).updateTexture();
+        }
+
+
+
     }
 
 
@@ -47,11 +71,11 @@ public class GameScreen extends ScreenAdapter {
     public void render(float delta){
         update();
         batch.begin();
-
         board.render(this.batch);
         resetButton.render((Gdx.graphics.getWidth()-60)/2, Gdx.graphics.getHeight()-75, this.batch);
         themeButton.render(20, Gdx.graphics.getHeight()-75, this.batch);
         undoButton.render((Gdx.graphics.getWidth()-120), Gdx.graphics.getHeight()-75, this.batch);
         batch.end();
     }
+
 }

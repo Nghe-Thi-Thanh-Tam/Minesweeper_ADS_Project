@@ -5,6 +5,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.mygdx.game.GameScreen;
+
+import java.util.Stack;
 
 public class Square {
     private int value;
@@ -16,6 +19,7 @@ public class Square {
     private Texture texture;
     private int noFlagAround;
     private boolean chording;
+
 
 
     public Square(){
@@ -36,26 +40,28 @@ public class Square {
                 if (!isFlagged()) {
                     if (!isOpened()) {
                         openSquare();
-                    }
-                    else{
-                        if(noFlagAround == getValue())
+                    } else {
+                        if (noFlagAround == getValue())
                             setChording(true);
                     }
                 }
             }
             if (Gdx.input.isButtonJustPressed(Input.Buttons.RIGHT)) {
                 if (!isOpened()) {
-                    if (!isFlagged()){
+                    if (!isFlagged()) {
                         isFlagged = true;
-                    }
-                    else{
+                    } else {
                         isFlagged = false;
                     }
                 }
             }
         }
+
         updateTexture();
     }
+
+
+
     public void updateTexture(){
         if (isOpened){
             if(!isBomb())
@@ -73,8 +79,11 @@ public class Square {
         else{
             setTexture(Sprite.wrong_flagged);
         }
-
     }
+
+//    public void repaint(){
+//        setTexture(Sprite.notOpen);
+//    }
 
     public final void render(SpriteBatch batch){
         batch.draw(texture, x, y, width, height);
@@ -124,11 +133,19 @@ public class Square {
         if (!isBomb() && isFlagged())
             isWrongFlagged = true;
     }
+
+
     public void openSquare(){
         if(!isOpened && !isFlagged){
             isOpened = true;
         }
     }
+
+    public void closeSquare(){
+        isOpened = false;
+//        setTexture(Sprite.notOpen);
+    }
+
     public void setNoFlagAround(int noFlagAround){
         this.noFlagAround = noFlagAround;
     }
