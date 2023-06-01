@@ -12,7 +12,7 @@ public class Board {
     private int x, y;
     private boolean win, lose;
 
-    private static Stack <Square> gameSteps;
+    public static Stack <Square> gameSteps;
     private boolean stateChanged;
 
 

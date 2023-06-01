@@ -37,7 +37,7 @@ public class Square {
 
 
     public void update() {
-        if (Gdx.input.getX() >= x && Gdx.input.getX() <= x+32 && Gdx.input.getY() >= Gdx.graphics.getHeight()-y-32 && Gdx.input.getY() <=  Gdx.graphics.getHeight()-y) {
+        if (Gdx.input.getX() >= x && Gdx.input.getX() <= x+32-1 && Gdx.input.getY() >= Gdx.graphics.getHeight()-y-32 && Gdx.input.getY() <=  Gdx.graphics.getHeight()-y-1) {
             if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
                 if (!isFlagged()) {
                     if (!isOpened()) {
