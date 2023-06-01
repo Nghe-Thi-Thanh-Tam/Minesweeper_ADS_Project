@@ -13,6 +13,7 @@ public class Board {
     private boolean win, lose;
 
     public static Stack <Square> gameSteps;
+    public static Stack <Square> SmallSteps;
     private boolean stateChanged;
 
 
@@ -45,7 +46,7 @@ public class Board {
             squareY += 32;
         }
 
-        stateChanged = false;
+        stateChanged = true;
     }
 
     public void update() {
@@ -77,32 +78,44 @@ public class Board {
                     if (board[i][j].isChording()){
                         openSquareAround(i ,j);
                         board[i][j].setChording(false);
+                        board[i][j].setStateChanged(true);
                     }
                     if (board[i][j].isOpened()){
-                        if(board[i][j].getValue() == 0)
+                        if(board[i][j].getValue() == 0) {
                             openSquareAround(i, j);
+                            board[i][j].setStateChanged(true);
+                            gameSteps.push(board[i][j]);
+                            board[i][j].setStateChanged(false);
+                        }
                         leftSquare--;
 
                     }
                     if (board[i][j].clickedBomb())
                         lose = true;
+
+//                    if(board[i][j].isStateChanged()) {
+//                        gameSteps.push(board[i][j]);
+//                        setStateChanged(true);
+//                        board[i][j].setStateChanged(false);
+//                    }
                     board[i][j].update();
 
-
-                    if(board[i][j].isStateChanged()) {
-                        gameSteps.push(board[i][j]);
-                        setStateChanged(true);
-                        board[i][j].setStateChanged(false);
-                    }
                 }
             }
             if (leftSquare == bomb)
                 win = true;
 
         }
+        for (int i = 0; i < row; i++) {
+            for (int j = 0; j < col; j++) {
+                if(board[i][j].isStateChanged()) {
+                    gameSteps.push(board[i][j]);
+                    setStateChanged(true);
+                    board[i][j].setStateChanged(false);
+                }
+            }
+        }
     }
-
-
 
     public void render(SpriteBatch batch) {
         for (int i = 0; i < row; i++) {
@@ -215,5 +228,8 @@ public class Board {
 
     public Stack<Square> getGameSteps() {
         return gameSteps;
+    }
+    public Stack<Square> getSmallSteps() {
+        return SmallSteps;
     }
 }
