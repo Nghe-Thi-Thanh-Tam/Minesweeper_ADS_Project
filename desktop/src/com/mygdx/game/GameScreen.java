@@ -13,16 +13,10 @@ import java.util.Stack;
 public class GameScreen extends ScreenAdapter {
     private SpriteBatch batch;
     private Board board;
-    private Square[][] square;
-
     private ResetButton resetButton;
     private ThemeButton themeButton;
     private UndoButton undoButton;
     private Stack<Stack> undoStack;
-
-    int i;
-    int j;
-
 
     public GameScreen(){
 
@@ -36,9 +30,11 @@ public class GameScreen extends ScreenAdapter {
 
     public void update() {
         board.update();
-        if(board.isStateChanged()){
-            undoStack.push(board.getGameSteps());
-            board.setStateChanged(false);
+        if(board.isStateChanged()) {
+                undoStack.push(board.getGameSteps());
+                board.setStateChanged(false);
+                board.clearGameSteps();
+
         }
         themeButton.update();
         if(resetButton.update())
@@ -55,7 +51,10 @@ public class GameScreen extends ScreenAdapter {
 
     public void undo(){
         if(!undoStack.empty()){
-            System.out.println("Undo is triggered");
+            if(board.isLose() || board.isWin()){
+                board.setWin(false);
+                board.setLose(false);
+            }
             Stack<Square> tempStack = undoStack.pop();
             while(!tempStack.empty()){
                 tempStack.pop().closeSquare();

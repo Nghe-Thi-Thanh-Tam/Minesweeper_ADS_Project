@@ -21,6 +21,9 @@ public class Square {
     private boolean chording;
     private boolean stateChanged;
 
+    private boolean isClicked;
+    private boolean temp;
+
 
 
     public Square(){
@@ -33,6 +36,8 @@ public class Square {
         chording = false;
         isWrongFlagged = false;
         stateChanged = false;
+        isClicked = false;
+        temp = false;
     }
 
 
@@ -40,8 +45,11 @@ public class Square {
         if (Gdx.input.getX() >= x && Gdx.input.getX() <= x+32-1 && Gdx.input.getY() >= Gdx.graphics.getHeight()-y-32 && Gdx.input.getY() <=  Gdx.graphics.getHeight()-y-1) {
             if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
                 if (!isFlagged()) {
+                    isClicked = true;
+                    setStateChanged(true);
                     if (!isOpened()) {
                         openSquare();
+
                     } else {
                         if (noFlagAround == getValue())
                             setChording(true);
@@ -134,13 +142,12 @@ public class Square {
     public void openSquare(){
         if(!isOpened && !isFlagged){
             isOpened = true;
-            setStateChanged(true);
         }
     }
 
     public void closeSquare(){
         isOpened = false;
-//        setTexture(Sprite.notOpen);
+        setTemp(false);
     }
 
     public void setNoFlagAround(int noFlagAround){
@@ -160,5 +167,21 @@ public class Square {
 
     public void setStateChanged(boolean stateChanged) {
         this.stateChanged = stateChanged;
+    }
+
+    public boolean isClicked() {
+        return isClicked;
+    }
+
+    public void setClicked(boolean clicked) {
+        isClicked = clicked;
+    }
+
+    public boolean isTemp() {
+        return temp;
+    }
+
+    public void setTemp(boolean temp) {
+        this.temp = temp;
     }
 }

@@ -47,14 +47,20 @@ public class Board {
         }
 
         stateChanged = true;
+        gameSteps = new Stack<>();
+
     }
 
     public void update() {
         if(lose) {
             for (int i = 0; i < row; i++) {
                 for (int j = 0; j < col; j++) {
-                    board[i][j].openBomb();
-                    board[i][j].updateTexture();
+                    if(board[i][j].isBomb()) {
+                        setStateChanged(true);
+                        gameSteps.push(board[i][j]);
+                        board[i][j].openBomb();
+                        board[i][j].updateTexture();
+                    }
                 }
             }
         }
@@ -62,6 +68,8 @@ public class Board {
             for (int i = 0; i < row; i++) {
                 for (int j = 0; j < col; j++) {
                     if (!board[i][j].isFlagged() && board[i][j].isBomb()){
+                        gameSteps.push(board[i][j]);
+                        setStateChanged(true);
                         board[i][j].isFlagged = true;
                     }
                     board[i][j].updateTexture();
@@ -69,35 +77,40 @@ public class Board {
             }
         }
         else{
-            gameSteps = new Stack<>();
             int leftSquare = col*row;
             for (int i = 0; i < row; i++) {
                 for (int j = 0; j < col; j++) {
                     updateNoFlagAround(i, j);
 
+                    if(board[i][j].isClicked()){
+                        setStateChanged(true);
+                        gameSteps.push(board[i][j]);
+                        board[i][j].setClicked(false);
+                    }
+
                     if (board[i][j].isChording()){
                         openSquareAround(i ,j);
                         board[i][j].setChording(false);
-                        board[i][j].setStateChanged(true);
-                    }
-                    if (board[i][j].isOpened()){
-                        if(board[i][j].getValue() == 0) {
-                            openSquareAround(i, j);
-                            board[i][j].setStateChanged(true);
-                            gameSteps.push(board[i][j]);
-                            board[i][j].setStateChanged(false);
-                        }
-                        leftSquare--;
-
+//                        board[i][j].setStateChanged(true);
                     }
                     if (board[i][j].clickedBomb())
                         lose = true;
 
-//                    if(board[i][j].isStateChanged()) {
-//                        gameSteps.push(board[i][j]);
-//                        setStateChanged(true);
-//                        board[i][j].setStateChanged(false);
-//                    }
+                    for (int x = 0; x < row; x++) {
+                        for (int y = 0; y < col; y++) {
+                            if(board[x][y].isOpened()){
+                                if(board[x][y].getValue() == 0)
+                                    if(!board[x][y].isTemp()){
+                                        openSquareAround(x, y);
+                                        board[x][y].setTemp(true);
+                                    }
+                            }
+                        }
+                    }
+
+                    if(board[i][j].isOpened())
+                        leftSquare--;
+
                     board[i][j].update();
 
                 }
@@ -105,15 +118,6 @@ public class Board {
             if (leftSquare == bomb)
                 win = true;
 
-        }
-        for (int i = 0; i < row; i++) {
-            for (int j = 0; j < col; j++) {
-                if(board[i][j].isStateChanged()) {
-                    gameSteps.push(board[i][j]);
-                    setStateChanged(true);
-                    board[i][j].setStateChanged(false);
-                }
-            }
         }
     }
 
@@ -188,12 +192,16 @@ public class Board {
 
     public void openSquare(int i, int j) {
         if (i >= 0 && j >= 0 && i < row && j < col) {
+            if(!board[i][j].isOpened()) {
                 board[i][j].openSquare();
+                gameSteps.push(board[i][j]);
+            }
         }
     }
 
 
     public void openSquareAround(int i, int j) {
+        gameSteps.push(board[i][j]);
         openSquare(i - 1, j - 1);
         openSquare(i - 1, j);
         openSquare(i - 1, j + 1);
@@ -202,20 +210,6 @@ public class Board {
         openSquare(i + 1, j - 1);
         openSquare(i + 1, j);
         openSquare(i + 1, j + 1);
-    }
-
-    public int getRow() {
-        return row;
-    }
-    public int getCol() {
-        return col;
-    }
-    public int getBomb(){
-        return bomb;
-    }
-
-    public Square undoSquare(int i, int j){
-        return board[i][j];
     }
 
     public boolean isStateChanged() {
@@ -229,7 +223,23 @@ public class Board {
     public Stack<Square> getGameSteps() {
         return gameSteps;
     }
-    public Stack<Square> getSmallSteps() {
-        return SmallSteps;
+    public void clearGameSteps(){
+        gameSteps = new Stack<>();
+    }
+
+    public boolean isWin() {
+        return win;
+    }
+
+    public void setWin(boolean win) {
+        this.win = win;
+    }
+
+    public boolean isLose() {
+        return lose;
+    }
+
+    public void setLose(boolean lose) {
+        this.lose = lose;
     }
 }
