@@ -19,8 +19,6 @@ public class Square {
     private Texture texture;
     private int noFlagAround;
     private boolean chording;
-    private boolean stateChanged;
-
     private boolean isClicked;
     private boolean temp;
 
@@ -35,7 +33,6 @@ public class Square {
         noFlagAround = 0;
         chording = false;
         isWrongFlagged = false;
-        stateChanged = false;
         isClicked = false;
         temp = false;
     }
@@ -45,14 +42,14 @@ public class Square {
         if (Gdx.input.getX() >= x && Gdx.input.getX() <= x+32-1 && Gdx.input.getY() >= Gdx.graphics.getHeight()-y-32 && Gdx.input.getY() <=  Gdx.graphics.getHeight()-y-1) {
             if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
                 if (!isFlagged()) {
-                    isClicked = true;
-                    setStateChanged(true);
                     if (!isOpened()) {
                         openSquare();
-
+                        isClicked = true;
                     } else {
-                        if (noFlagAround == getValue())
+                        if (noFlagAround == getValue()) {
                             setChording(true);
+                            isClicked = true;
+                        }
                     }
                 }
             }
@@ -76,6 +73,9 @@ public class Square {
         if (isOpened){
             if(!isBomb())
                 setTexture(Sprite.valueSprite[value]);
+            else if(isClicked){
+                setTexture(Sprite.clickedBomb);
+            }
             else{
                 setTexture(Sprite.bomb);
             }
@@ -125,17 +125,14 @@ public class Square {
         return false;
     }
 
-    public boolean clickedBomb(){
-        if (isBomb() && isOpened())
-            return true;
-        return false;
-    }
-
     public void openBomb(){
-        if (isBomb() && !clickedBomb() && !isFlagged())
-            isOpened = true;
-        if (!isBomb() && isFlagged())
+        if (!isBomb() && isFlagged) {
             isWrongFlagged = true;
+        }
+        if (isBomb() && !isFlagged()) {
+            isOpened = true;
+        }
+
     }
 
 
@@ -159,14 +156,6 @@ public class Square {
     }
     public void setTexture(Texture texture){
         this.texture = texture;
-    }
-
-    public boolean isStateChanged() {
-        return stateChanged;
-    }
-
-    public void setStateChanged(boolean stateChanged) {
-        this.stateChanged = stateChanged;
     }
 
     public boolean isClicked() {

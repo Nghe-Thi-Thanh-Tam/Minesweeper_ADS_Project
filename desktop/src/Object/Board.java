@@ -59,8 +59,11 @@ public class Board {
                         setStateChanged(true);
                         gameSteps.push(board[i][j]);
                         board[i][j].openBomb();
-                        board[i][j].updateTexture();
                     }
+                    else if(board[i][j].isFlagged)
+                        board[i][j].openBomb();
+
+                    board[i][j].updateTexture();
                 }
             }
         }
@@ -85,17 +88,15 @@ public class Board {
                     if(board[i][j].isClicked()){
                         setStateChanged(true);
                         gameSteps.push(board[i][j]);
+                        if(board[i][j].isBomb())
+                            setLose(true);
                         board[i][j].setClicked(false);
                     }
 
                     if (board[i][j].isChording()){
                         openSquareAround(i ,j);
                         board[i][j].setChording(false);
-//                        board[i][j].setStateChanged(true);
                     }
-                    if (board[i][j].clickedBomb())
-                        lose = true;
-
                     for (int x = 0; x < row; x++) {
                         for (int y = 0; y < col; y++) {
                             if(board[x][y].isOpened()){
@@ -108,8 +109,12 @@ public class Board {
                         }
                     }
 
-                    if(board[i][j].isOpened())
-                        leftSquare--;
+                    if(board[i][j].isOpened()) {
+                        if(board[i][j].isBomb())
+                            setLose(true);
+                        else
+                            leftSquare--;
+                    }
 
                     board[i][j].update();
 

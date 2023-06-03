@@ -37,14 +37,10 @@ public class GameScreen extends ScreenAdapter {
 
         }
         if(board.isWin()){
-//            resetButton = new ResetButton(60, 60, Sprite.won_face);
             resetButton.setTexture(Sprite.won_face);
-
         }
         else if(board.isLose()){
-//            resetButton = new ResetButton(60, 60, Sprite.lose_face);
             resetButton.setTexture(Sprite.lose_face);
-
         }
         else{
             resetButton.setTexture(Sprite.smiley_face);
@@ -67,6 +63,7 @@ public class GameScreen extends ScreenAdapter {
             if(board.isLose() || board.isWin()){
                 board.setWin(false);
                 board.setLose(false);
+                board.setStateChanged(false);
             }
             Stack<Square> tempStack = undoStack.pop();
             while(!tempStack.empty()){
