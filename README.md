@@ -27,7 +27,8 @@ There are uncompleted features and also some ideas that we wish to take on in th
 * **Difficulty selection**: players will be able to select difficulty
 
 ## Diagram(s):
-
+![image](https://github.com/Nghe-Thi-Thanh-Tam/Minesweeper_ADS_Project/assets/91868406/b986e28e-aa04-4507-9df2-1eec766a1e61)
+[Link](https://lucid.app/lucidchart/c54f2224-e5b5-4b4d-bab3-d46e2abc9057/edit?invitationId=inv_2d5ea27c-043e-4bb6-b91e-1945588ddcbe&page=0_0#)
 
 ## How to play:
 To win, you need to open all the squares. The number on a square shows the number of bombs around it. Using this information, you can determine squares that are safe, and squares that have bombs.
